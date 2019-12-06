@@ -1,6 +1,5 @@
 open System.IO
 
-
 [<StructuredFormatDisplay("({x},{y})")>]
 type Coordinate = { x: int; y: int }
 
@@ -14,7 +13,7 @@ type Movement =
     | Right of int
     | Left of int
 
-let input = 
+let input =
     let commandToMovement (command: string) =
         let movement = int command.[1..]
         match command.[0] with
@@ -24,16 +23,20 @@ let input =
         | 'L' -> Left(movement)
         | c -> failwithf "unknown command %c" c
 
-    let lines = @"./InputFiles/day03.txt"
-                |> File.ReadAllLines
-                |> Array.map (fun l ->
-                    l.Split(',') |> Array.map commandToMovement |> List.ofArray
-                )
+    let lines =
+        @"./InputFiles/day03.txt"
+        |> File.ReadAllLines
+        |> Array.map (fun l ->
+            l.Split(',')
+            |> Array.map commandToMovement
+            |> List.ofArray)
+
     (lines.[0], lines.[1])
 
-let lineType line = 
+let lineType line =
     let (s, e) = line
-    if s.x = e.x then Vertical else Horizontal
+    if s.x = e.x then Vertical
+    else Horizontal
 
 // intersection of two perpendicular lines
 let intersection line1 line2 =
@@ -75,7 +78,8 @@ let rec pathToCoordinates coordinates path =
         pathToCoordinates coordinates (List.tail path)
 
 let rec coordinatesToLines lines coordinates =
-    if (List.length coordinates) < 2 then lines
+    if (List.length coordinates) < 2 then
+        lines
     else
         let line = (coordinates.[1], coordinates.[0])
         let lines = line :: lines
@@ -90,11 +94,13 @@ let part1() =
     let wire1 = lines path1
     let wire2 = lines path2
 
-    let intersections = seq {
-        for line1 in wire1 do
-            for line2 in wire2 do
-                let intersection = intersection line1 line2
-                if intersection.IsSome then intersection.Value }
-    
+    let intersections =
+        seq {
+            for line1 in wire1 do
+                for line2 in wire2 do
+                    let intersection = intersection line1 line2
+                    if intersection.IsSome then intersection.Value
+        }
+
     // assume that intersection at (0,0) occurs only once
     intersections |> Seq.tail |> Seq.map manhattanFromOrigin |> Seq.min
