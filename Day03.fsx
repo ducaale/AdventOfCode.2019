@@ -78,10 +78,7 @@ let stridesToLines =
     List.scan moveByStride { x = 0; y = 0 } >> List.pairwise
 
 let linesToCumulativeSteps =
-    List.scan (fun total line -> total + length line) 0
-    >> List.rev
-    >> List.tail
-    >> List.rev
+    List.scan (fun total line -> total + length line) 0 >> List.tail
 
 let part1() =
     let strides1, strides2 = input
@@ -116,10 +113,10 @@ let part2() =
                     let intersection = intersection line1 line2
                     if intersection.IsSome then
                         let intersection = intersection.Value
-                        let s1, _ = line1
-                        let s2, _ = line2
-                        let wire1Delay = delay1 + (length (s1, intersection))
-                        let wire2Delay = delay2 + (length (s2, intersection))
+                        let _, s1 = line1
+                        let _, s2 = line2
+                        let wire1Delay = delay1 - (length (s1, intersection))
+                        let wire2Delay = delay2 - (length (s2, intersection))
                         wire1Delay + wire2Delay
         } |> Seq.tail
 
