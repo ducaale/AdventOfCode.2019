@@ -74,17 +74,14 @@ let moveByStride pos stride =
     | Right steps -> { pos with x = pos.x + steps }
     | Left steps -> { pos with x = pos.x - steps }
 
-let stridesToPoints = List.scan moveByStride { x = 0; y = 0 }
-
-let rec pointsToLines = List.pairwise
-
 let linesToCumulativeSteps =
     List.scan (fun total line -> total + length line) 0
     >> List.rev
     >> List.tail
     >> List.rev
 
-let stridesToLines = stridesToPoints >> pointsToLines
+let stridesToLines =
+    List.scan moveByStride { x = 0; y = 0 } >> List.pairwise
 
 let part1() =
     let strides1, strides2 = input
@@ -117,10 +114,13 @@ let part2() =
             for line1, delay1 in List.zip wire1 signalDelays1 do
                 for line2, delay2 in List.zip wire2 signalDelays2 do
                     let intersection = intersection line1 line2
-                    let s1, _ = line1
-                    let s2, _ = line2
                     if intersection.IsSome then
-                        delay1 + (length (s1, intersection.Value)) + delay2 + (length (s2, intersection.Value))
+                        let intersection = intersection.Value
+                        let s1, _ = line1
+                        let s2, _ = line2
+                        let wire1Delay = delay1 + (length (s1, intersection))
+                        let wire2Delay = delay2 + (length (s2, intersection))
+                        wire1Delay + wire2Delay
         } |> Seq.tail
 
     signalDelayAtIntersections |> Seq.min

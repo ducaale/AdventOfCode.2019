@@ -1,4 +1,4 @@
-// most of this code is adapted from
+// most of this code is copied from
 // https://github.com/CameronAavik/AdventOfCode/blob/master/AdventOfCode.2019/Solutions/Day02.fs
 
 open System.IO
