@@ -74,14 +74,14 @@ let moveByStride pos stride =
     | Right steps -> { pos with x = pos.x + steps }
     | Left steps -> { pos with x = pos.x - steps }
 
+let stridesToLines =
+    List.scan moveByStride { x = 0; y = 0 } >> List.pairwise
+
 let linesToCumulativeSteps =
     List.scan (fun total line -> total + length line) 0
     >> List.rev
     >> List.tail
     >> List.rev
-
-let stridesToLines =
-    List.scan moveByStride { x = 0; y = 0 } >> List.pairwise
 
 let part1() =
     let strides1, strides2 = input
