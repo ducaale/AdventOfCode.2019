@@ -34,8 +34,8 @@ let rec get i mode state =
 
 let parseOp op =
     let op = sprintf "%04d" op
-    let yMode = if op.[0..0] = "0" then Position else Immediate
-    let xMode = if op.[1..1] = "0" then Position else Immediate
+    let yMode = if op.[0] = '0' then Position else Immediate
+    let xMode = if op.[1] = '0' then Position else Immediate
     let op =
         match int op.[2..3] with
         | 01 -> Add
