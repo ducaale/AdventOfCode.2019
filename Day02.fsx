@@ -3,7 +3,7 @@ open System.IO
 #load "IntaComputer.fsx"
 open IntaComputer
 
-let input =
+let input() =
     let text = File.ReadAllText @"./InputFiles/day02.txt"
     let values = text.Split(',') |> Array.toList |> List.map int
     let indices = [ 0 .. (List.length values) - 1 ]
@@ -21,11 +21,11 @@ let solve noun verb intaCode =
     get 0 Immediate state
 
 let part1() =
-    let intaCode = input
+    let intaCode = input()
     solve 12 2 intaCode
 
 let part2() =
-    let intaCode = input
+    let intaCode = input()
     seq {
         for noun in [0..99] do
             for verb in [0..99] do

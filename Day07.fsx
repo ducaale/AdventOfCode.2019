@@ -3,14 +3,14 @@ open System.IO
 #load "IntaComputer.fsx"
 open IntaComputer
 
-let input =
+let input() =
     let text = File.ReadAllText @"./InputFiles/day07.txt"
     let values = text.Split(',') |> Array.toList |> List.map int
     let indices = [ 0 .. (List.length values) - 1 ]
     List.zip indices values |> Map.ofList
 
 let amplify phaseSetting inputSignal =
-    let intaCode = input
+    let intaCode = input()
     let state = { PC = 0
                   intaCode = intaCode
                   halt = false

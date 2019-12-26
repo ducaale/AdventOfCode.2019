@@ -1,6 +1,6 @@
 open System.IO
 
-let input =
+let input() =
     let text = File.ReadAllText @"./InputFiles/day04.txt"
     let values = text.Split('-') |> Array.map int
     values.[0], values.[1]
@@ -33,7 +33,7 @@ let hasTwoAdjacentRepeatExact digits =
     |> List.exists (fun chunk -> List.length chunk = 2)
 
 let part1() =
-    let first, last = input
+    let first, last = input()
     seq [ first .. last ]
     |> Seq.map (string >> Seq.toList)
     |> Seq.filter isNonDecreasing
@@ -41,7 +41,7 @@ let part1() =
     |> Seq.length
 
 let part2() =
-    let first, last = input
+    let first, last = input()
     seq [ first .. last ]
     |> Seq.map (string >> Seq.toList)
     |> Seq.filter isNonDecreasing

@@ -13,7 +13,7 @@ type Stride =
     | Right of int
     | Left of int
 
-let input =
+let input() =
     let parseStride (text: string) =
         let steps = int text.[1..]
         match text.[0] with
@@ -81,7 +81,7 @@ let linesToCumulativeSteps =
     List.scan (fun total line -> total + length line) 0 >> List.tail
 
 let part1() =
-    let strides1, strides2 = input
+    let strides1, strides2 = input()
     let wire1 = stridesToLines strides1
     let wire2 = stridesToLines strides2
 
@@ -98,7 +98,7 @@ let part1() =
     |> Seq.min
 
 let part2() =
-    let strides1, strides2 = input
+    let strides1, strides2 = input()
 
     let wire1 = stridesToLines strides1
     let wire2 = stridesToLines strides2

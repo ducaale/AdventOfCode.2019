@@ -1,6 +1,6 @@
 open System.IO
 
-let input =
+let input() =
     @"./InputFiles/day01.txt"
     |> File.ReadAllLines
     |> Array.toList
@@ -13,6 +13,6 @@ let rec calculateFuel2 mass =
     if fuel > 0 then fuel + calculateFuel2 fuel
     else 0
 
-let part1() = input |> List.sumBy calculateFuel1
+let part1() = input() |> List.sumBy calculateFuel1
 
-let part2() = input |> List.sumBy calculateFuel2
+let part2() = input() |> List.sumBy calculateFuel2

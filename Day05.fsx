@@ -3,7 +3,7 @@ open System.IO
 #load "IntaComputer.fsx"
 open IntaComputer
 
-let input =
+let input() =
     let text = File.ReadAllText @"./InputFiles/day05.txt"
     let values = text.Split(',') |> Array.toList |> List.map int
     let indices = [ 0 .. (List.length values) - 1 ]
@@ -21,9 +21,9 @@ let solve input intaCode =
     output
 
 let part1() =
-    let intaCode = input
+    let intaCode = input()
     solve 1 intaCode
 
 let part2() =
-    let intaCode = input
+    let intaCode = input()
     solve 5 intaCode
