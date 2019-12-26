@@ -20,14 +20,13 @@ let amplify phaseSetting inputSignal =
     let output, _ = state |> stepUntilHalt |> popOutput
     output
 
-// https://stackoverflow.com/a/3129136/5915221
-let rec distribute e = function
-  | [] -> [[e]]
-  | x::xs' as xs -> (e::xs)::[for xs in distribute e xs' -> x::xs]
+let permute list =
+  let rec inserts e list =
+    match list with
+    | [] -> [[e]]
+    | x::xs -> (e::list)::(inserts e xs |> List.map (function xs' -> x::xs'))
 
-let rec permute = function
-  | [] -> [[]]
-  | e::xs -> List.collect (distribute e) (permute xs)
+  List.fold (fun accum x -> List.collect (inserts x) accum) [[]] list
 
 let part1() =
     let possibleSettings = permute [0; 1; 2; 3; 4]
