@@ -14,7 +14,7 @@ let solve input intaCode =
         stepUntilHalt { PC = 0
                         intaCode = intaCode
                         halt = false
-                        inputStack = [input]
+                        inputQueue = [input]
                         outputStack = [] }
 
     let output, _ = popOutput state

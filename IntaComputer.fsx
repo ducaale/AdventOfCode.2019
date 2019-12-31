@@ -1,6 +1,6 @@
 type State = { PC: int
                intaCode: Map<int, int>
-               inputStack: int list
+               inputQueue: int list
                outputStack: int list
                halt: bool }
 
@@ -28,11 +28,11 @@ let popOutput state =
     | [] -> failwith "output is empty"
     | x::xs -> x, { state with outputStack = xs }
 
-let pushInput value state = { state with inputStack = value::state.inputStack }
-let popInput state =
-    match state.inputStack with
+let enqueInput value state = { state with inputQueue = state.inputQueue @ [value] }
+let dequeInput state =
+    match state.inputQueue with
     | [] -> failwith "input is empty"
-    | x::xs -> x, { state with inputStack = xs }
+    | x::xs -> x, { state with inputQueue = xs }
 
 let set i value state = { state with intaCode = Map.add i value state.intaCode }
 let rec get i mode state =
@@ -69,7 +69,7 @@ let rec step state =
         set dest (op x y) state |> incPC 4
     | Input ->
         let dest = get (state.PC + 1) Immediate state
-        let input, state = popInput state
+        let input, state = dequeInput state
         set dest input state |> incPC 2
     | Output ->
         let x = get (state.PC + 1) Position state
@@ -105,3 +105,14 @@ let rec step state =
 let rec stepUntilHalt state =
     if state.halt then state
     else step state |> stepUntilHalt
+
+let rec stepUntilOutputOrHalt state =
+    if state.halt then state
+    elif (List.length state.outputStack) = 1 then state
+    else step state |> stepUntilOutputOrHalt
+
+let rec stepUntilInputOrHalt state =
+    let op, _, _ = parseOp (get state.PC Immediate state)
+    if state.halt then state
+    elif op = Input then state
+    else step state |> stepUntilInputOrHalt

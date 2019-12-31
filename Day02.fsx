@@ -15,7 +15,7 @@ let solve noun verb intaCode =
         stepUntilHalt { PC = 0
                         intaCode = intaCode
                         halt = false
-                        inputStack = []
+                        inputQueue = []
                         outputStack = [] }
 
     get 0 Immediate state
